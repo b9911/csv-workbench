@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+.env
+*.log
+.env.*
+!.env.example
+node_modules/
+runtime/
+*.key
+*.pem
