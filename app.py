@@ -7,6 +7,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
+from import_pipeline import inspect_csv, prepare_import
 
 MAX_BODY = 2_200_000
 MAX_TEXT = 1_000_000
@@ -18,6 +19,8 @@ csv.field_size_limit(MAX_TEXT)
 def clean_csv(payload):
     if not isinstance(payload, dict):
         raise ValueError("object_required")
+    if "schema" in payload:
+        return prepare_import(payload)
     text = payload.get("text")
     delimiter = payload.get("delimiter", ",")
     if not isinstance(text, str) or len(text.encode("utf-8")) > MAX_TEXT:
@@ -98,7 +101,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self.allowed():
             return self.respond(403, {"error": "origin"})
-        routes = {"/": ("index.html", "text/html; charset=utf-8"), "/app.js": ("app.js", "text/javascript; charset=utf-8"), "/style.css": ("style.css", "text/css; charset=utf-8"), "/icon.svg": ("icon.svg", "image/svg+xml")}
+        routes = {"/": ("index.html", "text/html; charset=utf-8"), "/app.js": ("app.js", "text/javascript; charset=utf-8"), "/workbench-ui.js": ("workbench-ui.js", "text/javascript; charset=utf-8"), "/style.css": ("style.css", "text/css; charset=utf-8"), "/icon.svg": ("icon.svg", "image/svg+xml")}
         target = routes.get(urlsplit(self.path).path)
         if not target:
             return self.respond(404, {"error": "not_found"})
@@ -107,7 +110,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         if not self.allowed():
             return self.respond(403, {"error": "origin"})
-        if self.path != "/api/clean":
+        if self.path not in ("/api/clean", "/api/inspect"):
             return self.respond(404, {"error": "not_found"})
         if self.headers.get("Transfer-Encoding") or self.headers.get("Content-Type", "").split(";")[0] != "application/json":
             return self.respond(415, {"error": "content_type"})
@@ -126,7 +129,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.respond(400, {"error": "json"})
             try:
                 payload = json.loads(raw.decode("utf-8"))
-                result = clean_csv(payload)
+                result = inspect_csv(payload) if self.path == "/api/inspect" else clean_csv(payload)
             except (UnicodeDecodeError, json.JSONDecodeError, RecursionError):
                 return self.respond(400, {"error": "json"})
             except ValueError as error:

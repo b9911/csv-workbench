@@ -28,6 +28,24 @@ Interfaz local real con datos de demostración.
 
 ## Funciones
 
+### Preparar una importación
+
+Activa **Preparar importación → Leer columnas**. El primer registro no vacío es
+el encabezado. Selecciona, renombra y ordena columnas; define campos obligatorios
+y tipos (texto, entero, decimal con punto o formato básico de email).
+Las columnas Clave forman una clave compuesta única que distingue mayúsculas;
+se acepta la primera aparición válida y se rechazan claves vacías o repetidas.
+
+**Preparar archivo de importación** genera `import-ready.csv`, un archivo separado
+`rejected-records.csv` con motivos y celdas originales en JSON, y un informe JSON.
+La vista previa muestra hasta 30 aceptados y 30 rechazados; las descargas incluyen
+todos. Los valores siguen siendo texto: `001` no pierde sus ceros.
+La validación de email no comprueba que el buzón exista. Máximo 200 columnas y
+200.000 celdas proyectadas, además de los límites originales. La protección de
+fórmulas también afecta a números negativos; revísala antes de importar.
+El mapeo no se guarda fuera de la memoria de la pestaña. No se envían datos a
+un CRM ni a una tienda automáticamente. El modo de limpieza original sigue disponible.
+
 | Función | Comportamiento |
 | --- | --- |
 | Limpieza | Recorta espacios y elimina filas vacías |

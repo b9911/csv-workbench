@@ -72,6 +72,20 @@ class HTTPTests(unittest.TestCase):
         self.assertEqual(status,200)
         self.assertEqual(json.loads(data)["csv"],"a,b\r\n")
 
+    def test_import_inspect_and_rejection_export(self):
+        body = {"text": "sku,email\n001,valid@example.test\n001,duplicate@example.test\n002,invalid"}
+        status, data = self.request("POST", "/api/inspect", json.dumps(body), {"Content-Type":"application/json"})
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(data)["headers"], ["sku", "email"])
+        body['schema'] = [{'source':0,'name':'id','unique':True}, {'source':1,'name':'contact','type':'email'}]
+        status, data = self.request("POST", "/api/clean", json.dumps(body), {"Content-Type":"application/json"})
+        self.assertEqual(status, 200)
+        result = json.loads(data)
+        self.assertEqual(result['report']['accepted_rows'], 1)
+        self.assertEqual(result['report']['rejected_rows'], 2)
+        self.assertIn('duplicate_key', result['rejected_csv'])
+        self.assertIn('email:contact', result['rejected_csv'])
+
     def test_external_origin_and_rebinding_host_blocked(self):
         self.assertEqual(self.request("GET","/",headers={"Host":"attacker.test"})[0],403)
         self.assertEqual(self.request("POST","/api/clean","{}",{"Content-Type":"application/json","Origin":"https://attacker.test"})[0],403)

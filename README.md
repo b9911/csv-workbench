@@ -28,6 +28,34 @@ Actual local interface with synthetic demonstration data.
 
 ## Features
 
+### Prepare a supplier / CRM import
+
+Enable **Prepare for import**, then **Read columns**. The first nonempty record
+is the header. Select output columns, rename and reorder them, and mark required
+fields. Validate text, ASCII integers, decimals with a dot (no exponent), or a
+basic email shape. Values remain strings: `001` stays `001`; numbers are not rounded.
+Email checking does not establish mailbox existence or deliverability.
+
+Columns marked **Key** form a composite, case-sensitive unique key after optional
+trimming. Empty keys are rejected; the first valid occurrence is accepted.
+Malformed-width records, missing required values, invalid types and duplicate keys
+go to a separate rejection file instead of silently disappearing. If exact-row
+deduplication is enabled, repeated mapped rows are also reported as rejections.
+
+Click **Build import file** for `import-ready.csv`, `rejected-records.csv` and the
+JSON report. Rejection records retain original cells as JSON and logical CSV
+record numbers (quoted multiline records can span multiple physical lines).
+The preview shows up to 30 accepted and 30 rejected records; downloads contain all.
+Basic cleanup remains available with the mode off and does not assume a header.
+Mapping supports at most 200 selected columns and 200,000 projected cells,
+in addition to the source limits. Formula protection still changes negative numbers
+to spreadsheet text; review it for the destination importer.
+
+Example: **Load sample → Prepare for import → Read columns**. Mark `sku` as Key,
+`email` as required Email and `price` as Decimal. The sample yields one accepted
+record and four rejections with distinct reasons. No cloud call or automatic
+import into an external CRM/shop occurs. Mappings are kept only in memory.
+
 | Feature | Behavior |
 | --- | --- |
 | Cleanup | Trim cells and remove blank rows |
@@ -74,7 +102,7 @@ Open **http://127.0.0.1:8802** after the terminal prints that URL. Stop with Ctr
 - Python's strict CSV parser rejects unterminated quoted fields and invalid text after a closing quote. It does not validate business semantics or every possible CSV dialect. A literal quote inside an unquoted field may be accepted by Python's CSV dialect.
 - Spreadsheet protection is enabled by default: an apostrophe is prepended to formula-like values (`=`, `+`, `-`, `@`, leading tab/newline). This also changes negative numbers into text. Review the export for your target spreadsheet; protection is not a guarantee across every importer and later transformation.
 - CSV data lives in browser and local process memory. The app writes no uploaded files or reports to disk; downloads are explicitly saved by the browser. The operating system may use swap or crash dumps; this app does not control those mechanisms. Close the tab and stop the process when finished.
-- The server validates Host and Origin, exposes only four static assets, caps two simultaneous processing tasks, and does not log request bodies or paths. Do not expose it through a reverse proxy or share sensitive data with untrusted local software.
+- The server validates Host and Origin, exposes only allowlisted static assets, caps two simultaneous processing tasks, and does not log request bodies or paths. Do not expose it through a reverse proxy or share sensitive data with untrusted local software.
 
 
 Run `python -m unittest discover -s tests -v` (or `make test`). Tests cover quoted multiline fields, trimming/deduplication, injection protection, malformed input, limits, preserved irregular rows, UTF-8 BOM, HTTP origin/host checks and asset allowlisting. Native macOS launch still requires verification; see the dated Windows/WSL Ubuntu checks below.

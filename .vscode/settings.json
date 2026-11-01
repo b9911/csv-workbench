@@ -1,0 +1,23 @@
+{
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.venv/**": true,
+    "**/target/**": true,
+    "**/dist/**": true,
+    "**/runtime/**": true,
+    "**/__pycache__/**": true
+  },
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "**/.venv/**": true,
+    "**/target/**": true,
+    "**/dist/**": true,
+    "**/runtime/**": true,
+    "**/__pycache__/**": true,
+    "**/.env": true,
+    "**/.env.local": true,
+    "**/.env.*.local": true
+  },
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  "python.terminal.useEnvFile": false
+}
