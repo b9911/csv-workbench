@@ -2,7 +2,7 @@
 
 <img src="./public/src/assets/icon.svg" alt="CSV Workbench icon" width="112">
 
-[English](README.md) · [Русский](README.ru.md) · [Español](README.es.md)
+[English](README.md) · [Russian](README.ru.md) · [Spanish](README.es.md)
 
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
 ![Parser Standard library CSV](https://img.shields.io/badge/Parser-Standard%20library%20CSV-4472C4)
