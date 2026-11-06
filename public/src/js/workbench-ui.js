@@ -1,4 +1,13 @@
 'use strict';
+function browserLanguage(key) {
+  let saved;
+  try { saved = globalThis.localStorage?.getItem(key); } catch {}
+  const supported = ['en', 'es', 'ru'];
+  if (supported.includes(saved)) return saved;
+  const nav = globalThis.navigator;
+  const languages = nav?.languages?.length ? nav.languages : [nav?.language];
+  return languages.map(value => String(value).trim().toLowerCase().split(/[-_]/)[0]).find(value => supported.includes(value)) || 'en';
+}
 const importCopy = {
   en: {importMode:'Prepare for import',importHint:'The first nonempty record is the header. Map and validate columns; rejected records are exported separately.',inspect:'Read columns',keyHint:'Selected key columns form one composite unique key. Empty keys are rejected. Comparison is case-sensitive.',include:'Include',outputName:'Output name',type:'Type',required:'Required',unique:'Key',order:'Order',text:'Text',integer:'Integer',decimal:'Decimal (dot)',email:'Email',sample:'Sample',accepted_rows:'Accepted records',rejected_rows:'Rejected records',rejectDownload:'Download rejected rows',rejectedTitle:'Rejected records and reasons',rejectedHint:'First 30 rejections. Download contains all rejected records and the original cells as JSON.',record:'Record',reasons:'Reasons',original:'Original cells',column_count:'Column count differs from the header',duplicate_key:'Duplicate key',duplicate_row:'Duplicate row',requiredError:'Empty required field',integerError:'Expected integer',decimalError:'Expected decimal with a dot',emailError:'Invalid email format',schema:'Select at least one column. Output names must be nonempty and unique (ignoring case).',empty_input:'Add a CSV with a header and data.',columns_limit:'Import mapping supports up to 200 columns.',inspectFirst:'Read the source columns before preparing an import.',sourceRows:'Data records in source',importDone:'Import file prepared. Review accepted and rejected records before downloading.',importPreview:'Output header and first 30 accepted records. The download contains all accepted records.',up:'Move up',down:'Move down',sourceColumn:'Source column'},
   ru: {importMode:'Подготовить к импорту',importHint:'Первая непустая запись — заголовок. Выберите столбцы и проверки; отклонённые записи выгружаются отдельно.',inspect:'Прочитать столбцы',keyHint:'Отмеченные столбцы образуют один составной уникальный ключ. Пустые ключи отклоняются. Регистр учитывается.',include:'Включить',outputName:'Имя на выходе',type:'Тип',required:'Обязательное',unique:'Ключ',order:'Порядок',text:'Текст',integer:'Целое число',decimal:'Число с точкой',email:'Email',sample:'Пример',accepted_rows:'Принято записей',rejected_rows:'Отклонено записей',rejectDownload:'Скачать отклонённые',rejectedTitle:'Отклонённые записи и причины',rejectedHint:'Первые 30 отклонений. В файле — все отклонённые записи и исходные ячейки в JSON.',record:'Запись',reasons:'Причины',original:'Исходные ячейки',column_count:'Число столбцов отличается от заголовка',duplicate_key:'Повтор ключа',duplicate_row:'Повтор строки',requiredError:'Не заполнено обязательное поле',integerError:'Нужно целое число',decimalError:'Нужно число с десятичной точкой',emailError:'Некорректный формат email',schema:'Выберите хотя бы один столбец. Имена на выходе должны быть непустыми и уникальными без учёта регистра.',empty_input:'Добавьте CSV с заголовком и данными.',columns_limit:'Подготовка импорта поддерживает до 200 столбцов.',inspectFirst:'Сначала прочитайте столбцы исходного файла.',sourceRows:'Записей данных в источнике',importDone:'Файл для импорта подготовлен. Проверьте принятые и отклонённые записи перед скачиванием.',importPreview:'Заголовок и первые 30 принятых записей. В выгрузке — все принятые записи.',up:'Выше',down:'Ниже',sourceColumn:'Исходный столбец'},
@@ -10,8 +19,7 @@ importCopy.es.prepare = 'Preparar archivo de importación →';
 for (const language of Object.keys(importCopy)) Object.assign(copy[language], importCopy[language]);
 const $ = id => document.getElementById(id);
 let lang = 'en', result = null, working = false, statusKey = '', mapping = null, inspected = null, fileVersion = 0;
-try {lang = localStorage.getItem('csv-language') || navigator.language.split('-')[0];} catch {lang = navigator.language.split('-')[0];}
-if (!copy[lang]) lang = 'en';
+lang = browserLanguage('csv-language');
 const t = key => copy[lang][key] || copy[lang].other;
 function message(key, error = false) {statusKey = key; $('status').textContent = t(key); $('status').className = error ? 'error' : '';}
 function invalidate(resetSchema = false) {
@@ -32,14 +40,14 @@ async function request(route, payload) {
   if (!response.ok) throw new Error(data.error || 'other');
   return data;
 }
-function setLanguage(value) {
+function setLanguage(value, persist = false) {
   lang = value; document.documentElement.lang = lang; $('language').value = lang;
   document.querySelectorAll('[data-i]').forEach(el => {el.textContent = t(el.dataset.i);});
   $('language').setAttribute('aria-label', t('language'));
   if (statusKey) message(statusKey, $('status').classList.contains('error'));
   if (mapping && !working) renderMapping();
   if (result) render();
-  try {localStorage.setItem('csv-language', lang);} catch {}
+  if (persist) try {localStorage.setItem('csv-language', lang);} catch {}
 }
 function table(target, headers, rows) {
   target.replaceChildren(); const head = document.createElement('thead'), tr = document.createElement('tr');
@@ -100,7 +108,7 @@ function renderMapping() {
   });
   $('schema-panel').hidden = false;
 }
-$('language').addEventListener('change', e => setLanguage(e.target.value));
+$('language').addEventListener('change', e => setLanguage(e.target.value, true));
 $('prepare').addEventListener('click', () => $('clean').click());
 for (const id of ['source','delimiter','trim','dedup','safe']) $(id).addEventListener('input', () => invalidate(['source','delimiter'].includes(id)));
 $('schema-mode').addEventListener('change', () => {invalidate(); $('inspect').hidden = !$('schema-mode').checked; $('schema-panel').hidden = !$('schema-mode').checked || !mapping;});
