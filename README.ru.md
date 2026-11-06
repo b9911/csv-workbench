@@ -1,6 +1,6 @@
 # CSV Workbench
 
-<img src="public/icon.svg" alt="CSV Workbench icon" width="112">
+<img src="./public/src/assets/icon.svg" alt="CSV Workbench icon" width="112">
 
 [English](README.md) · [Русский](README.ru.md) · [Español](README.es.md)
 
@@ -71,8 +71,8 @@ Email-проверка не подтверждает существование 
 | Компонент | Исходник |
 | --- | --- |
 | Python stdlib, HTTP и CSV | [app.py](app.py) |
-| JavaScript, Blob-скачивание, EN/RU/ES | [public/app.js](public/app.js) |
-| Адаптивный HTML/CSS, SVG | [public/index.html](public/index.html), [public/style.css](public/style.css), [public/icon.svg](public/icon.svg) |
+| JavaScript, Blob-скачивание, EN/RU/ES | [public/app.js](public/src/js/app.js) |
+| Адаптивный HTML/CSS, SVG | [public/index.html](public/index.html), [public/style.css](public/src/css/style.css), [public/icon.svg](public/src/assets/icon.svg) |
 | Тесты парсера и HTTP | [tests/test_app.py](tests/test_app.py) |
 
 <a id="readme-start"></a>

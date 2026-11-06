@@ -1,6 +1,6 @@
 # CSV Workbench
 
-<img src="public/icon.svg" alt="CSV Workbench icon" width="112">
+<img src="./public/src/assets/icon.svg" alt="CSV Workbench icon" width="112">
 
 [English](README.md) · [Русский](README.ru.md) · [Español](README.es.md)
 
@@ -73,8 +73,8 @@ The interface supports English, Russian and Spanish. First use follows browser l
 | Component | Source |
 | --- | --- |
 | Python standard-library HTTP server, strict CSV parsing, bounded requests | [app.py](app.py) |
-| Vanilla JavaScript, browser Blob downloads, RU/EN/ES interface | [public/app.js](public/app.js) |
-| Responsive HTML and CSS, original SVG icon | [public/index.html](public/index.html), [public/style.css](public/style.css), [public/icon.svg](public/icon.svg) |
+| Vanilla JavaScript, browser Blob downloads, RU/EN/ES interface | [public/app.js](public/src/js/app.js) |
+| Responsive HTML and CSS, original SVG icon | [public/index.html](public/index.html), [public/style.css](public/src/css/style.css), [public/icon.svg](public/src/assets/icon.svg) |
 | Parser and HTTP boundary tests | [tests/test_app.py](tests/test_app.py) |
 
 <a id="readme-start"></a>

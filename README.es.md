@@ -1,6 +1,6 @@
 # CSV Workbench
 
-<img src="public/icon.svg" alt="CSV Workbench icon" width="112">
+<img src="./public/src/assets/icon.svg" alt="CSV Workbench icon" width="112">
 
 [English](README.md) · [Русский](README.ru.md) · [Español](README.es.md)
 
@@ -63,8 +63,8 @@ Interfaz EN/RU/ES según el idioma inicial del navegador; la elección manual se
 | Componente | Código |
 | --- | --- |
 | Python stdlib, HTTP y CSV | [app.py](app.py) |
-| JavaScript, descargas Blob, EN/RU/ES | [public/app.js](public/app.js) |
-| HTML/CSS adaptable, SVG | [public/index.html](public/index.html), [public/style.css](public/style.css), [public/icon.svg](public/icon.svg) |
+| JavaScript, descargas Blob, EN/RU/ES | [public/app.js](public/src/js/app.js) |
+| HTML/CSS adaptable, SVG | [public/index.html](public/index.html), [public/style.css](public/src/css/style.css), [public/icon.svg](public/src/assets/icon.svg) |
 | Pruebas del parser y HTTP | [tests/test_app.py](tests/test_app.py) |
 
 <a id="readme-start"></a>

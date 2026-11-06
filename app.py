@@ -101,7 +101,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self.allowed():
             return self.respond(403, {"error": "origin"})
-        routes = {"/": ("index.html", "text/html; charset=utf-8"), "/app.js": ("app.js", "text/javascript; charset=utf-8"), "/workbench-ui.js": ("workbench-ui.js", "text/javascript; charset=utf-8"), "/style.css": ("style.css", "text/css; charset=utf-8"), "/icon.svg": ("icon.svg", "image/svg+xml")}
+        routes = {"/": ("index.html", "text/html; charset=utf-8"), "/src/js/app.js": ("src/js/app.js", "text/javascript; charset=utf-8"), "/src/js/workbench-ui.js": ("src/js/workbench-ui.js", "text/javascript; charset=utf-8"), "/src/css/style.css": ("src/css/style.css", "text/css; charset=utf-8"), "/src/assets/icon.svg": ("src/assets/icon.svg", "image/svg+xml")}
         target = routes.get(urlsplit(self.path).path)
         if not target:
             return self.respond(404, {"error": "not_found"})
