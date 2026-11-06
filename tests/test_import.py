@@ -3,7 +3,7 @@ import io
 import unittest
 
 from app import clean_csv
-from import_pipeline import inspect_csv
+from src.import_pipeline import inspect_csv
 
 
 class ImportTests(unittest.TestCase):

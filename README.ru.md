@@ -1,7 +1,27 @@
 # CSV Workbench
 
-<img src="./public/src/assets/icon.svg" alt="CSV Workbench" width="88">
+<img src="./public/src/assets/icon.svg" alt="CSV Workbench icon" width="112">
+
+[English](README.md) · [Russian](README.ru.md) · [Spanish](README.es.md)
+
+![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-UI-F7DF1E?logo=javascript&logoColor=black)
+![Format CSV](https://img.shields.io/badge/Format-CSV-4472C4)
+[![License MIT](https://img.shields.io/badge/License-MIT-22A669)](LICENSE)
 
 Очистка CSV, проверка столбцов и подготовка файлов к импорту.
 
-Автор: [d9911](https://github.com/d9911) · Лицензия: [MIT](LICENSE).
+![Скриншот CSV Workbench](docs/images/preview.jpg)
+
+Автор: [d9911](https://github.com/d9911).
+
+<details>
+<summary>Запуск</summary>
+
+Windows: `Start.cmd`
+
+macOS / Linux: `sh start.sh`
+
+[Открыть приложение](http://127.0.0.1:8802/).
+
+</details>

@@ -7,7 +7,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
-from import_pipeline import inspect_csv, prepare_import
+from src.import_pipeline import inspect_csv, prepare_import
 
 MAX_BODY = 2_200_000
 MAX_TEXT = 1_000_000

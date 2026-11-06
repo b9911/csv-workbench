@@ -1,7 +1,27 @@
 # CSV Workbench
 
-<img src="./public/src/assets/icon.svg" alt="CSV Workbench" width="88">
+<img src="./public/src/assets/icon.svg" alt="CSV Workbench icon" width="112">
+
+[English](README.md) · [Russian](README.ru.md) · [Spanish](README.es.md)
+
+![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-UI-F7DF1E?logo=javascript&logoColor=black)
+![Format CSV](https://img.shields.io/badge/Format-CSV-4472C4)
+[![License MIT](https://img.shields.io/badge/License-MIT-22A669)](LICENSE)
 
 Limpia archivos CSV, valida columnas y prepara importaciones.
 
-Autor: [d9911](https://github.com/d9911) · Licencia: [MIT](LICENSE).
+![Captura de CSV Workbench](docs/images/preview.jpg)
+
+Autor: [d9911](https://github.com/d9911).
+
+<details>
+<summary>Ejecutar</summary>
+
+Windows: `Start.cmd`
+
+macOS / Linux: `sh start.sh`
+
+[Abrir la aplicación](http://127.0.0.1:8802/).
+
+</details>
